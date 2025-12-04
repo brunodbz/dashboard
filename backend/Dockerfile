@@ -20,7 +20,8 @@ RUN if [ -f /etc/apt/sources.list ]; then \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir --timeout 120 -r requirements.txt
+# Increase pip timeout and retries to handle slow connections during image builds.
+RUN pip install --no-cache-dir --timeout 300 --retries 10 -r requirements.txt
 
 COPY . .
 
