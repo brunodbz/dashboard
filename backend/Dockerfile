@@ -23,8 +23,10 @@ RUN if [ -f /etc/apt/sources.list ]; then \
 COPY requirements.txt .
 # Increase pip timeout and retries to handle slow connections during image builds.
 # Using environment variables keeps the settings consistent across any future pip commands.
-ENV PIP_DEFAULT_TIMEOUT=600 PIP_RETRIES=20
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PIP_DEFAULT_TIMEOUT=1200 \
+    PIP_RETRIES=25 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+RUN pip install --no-cache-dir --default-timeout=${PIP_DEFAULT_TIMEOUT} --retries ${PIP_RETRIES} --progress-bar off -r requirements.txt
 
 COPY . .
 
