@@ -247,7 +247,7 @@ Navegue até a pasta home
 cd ~
 
 Clone o repositório
-git clone https://github.com/seu-usuario/soc-dashboard.git
+git clone https://github.com/brunodbz/dashboard.git
 
 Entre na pasta
 cd soc-dashboard
@@ -822,8 +822,9 @@ Contribuições são bem-vindas! Por favor:
 
 **Última atualização:** Dezembro 2025  
 **Versão:** 1.0.0  
-**Mantenedor:** Seu Nome (@seu-usuario)
+**Mantenedor:** Bruno (@brunodbz)
 
 ---
 
 **🛡️ Proteja sua infraestrutura com inteligência correlacionada!**
+
