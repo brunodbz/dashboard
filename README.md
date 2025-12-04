@@ -569,6 +569,33 @@ docker compose up -d
 
 ---
 
+### ❌ Problema: "failed to fetch anonymous token" ou i/o timeout ao baixar imagens do Docker Hub
+
+**Causa:** Conexão com o Docker Hub está lenta/bloqueada ou há proxy corporativo impedindo o download das imagens base (`python:3.11-slim`, `nginx:alpine`, `node:20-alpine`).
+
+**Solução:**
+1. **Teste sua conexão:**
+   - `docker pull hello-world` (verifique se consegue baixar algo pequeno)
+   - Se falhar, cheque se há proxy ou bloqueio de rede.
+2. **Configurar um mirror do Docker Hub (recomendado em redes restritas):**
+   - Crie/edite `~/.docker/daemon.json` e adicione:
+     ```json
+     {
+       "registry-mirrors": ["https://mirror.gcr.io"]
+     }
+     ```
+   - Reinicie o Docker Desktop/daemon e tente novamente `docker-compose build`.
+3. **Usar variáveis de proxy (quando necessário):**
+   - Exporte antes de rodar o build: `export HTTPS_PROXY=http://usuario:senha@proxy:3128`
+   - No Docker Desktop (Windows/macOS): Settings → Resources → Proxies → configure o proxy.
+4. **Forçar novo pull das bases:**
+   - `docker pull nginx:alpine`
+   - `docker pull node:20-alpine`
+   - `docker pull python:3.11-slim`
+   - Depois: `docker-compose build --pull`
+
+---
+
 ### ❌ Problema: "Cannot connect to the Docker daemon"
 
 **Causa:** Docker Desktop não está rodando
