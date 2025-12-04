@@ -5,13 +5,13 @@ WORKDIR /app
 
 RUN if [ -f /etc/apt/sources.list ]; then \
         sed -i \
-            -e 's|http://deb.debian.org/debian|https://deb.debian.org/debian|g' \
-            -e 's|http://security.debian.org/debian-security|https://security.debian.org/debian-security|g' \
+            -e 's|https://deb.debian.org/debian|http://deb.debian.org/debian|g' \
+            -e 's|https://security.debian.org/debian-security|http://security.debian.org/debian-security|g' \
             /etc/apt/sources.list; \
     elif [ -f /etc/apt/sources.list.d/debian.sources ]; then \
         sed -i \
-            -e 's|http://deb.debian.org/debian|https://deb.debian.org/debian|g' \
-            -e 's|http://security.debian.org/debian-security|https://security.debian.org/debian-security|g' \
+            -e 's|https://deb.debian.org/debian|http://deb.debian.org/debian|g' \
+            -e 's|https://security.debian.org/debian-security|http://security.debian.org/debian-security|g' \
             /etc/apt/sources.list.d/debian.sources; \
     fi \
     && apt-get update \
