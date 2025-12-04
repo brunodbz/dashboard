@@ -2,10 +2,17 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN sed -i \
-    -e 's|http://deb.debian.org/debian|https://deb.debian.org/debian|g' \
-    -e 's|http://security.debian.org/debian-security|https://security.debian.org/debian-security|g' \
-    /etc/apt/sources.list \
+RUN if [ -f /etc/apt/sources.list ]; then \
+        sed -i \
+            -e 's|http://deb.debian.org/debian|https://deb.debian.org/debian|g' \
+            -e 's|http://security.debian.org/debian-security|https://security.debian.org/debian-security|g' \
+            /etc/apt/sources.list; \
+    elif [ -f /etc/apt/sources.list.d/debian.sources ]; then \
+        sed -i \
+            -e 's|http://deb.debian.org/debian|https://deb.debian.org/debian|g' \
+            -e 's|http://security.debian.org/debian-security|https://security.debian.org/debian-security|g' \
+            /etc/apt/sources.list.d/debian.sources; \
+    fi \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         gcc \
