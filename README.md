@@ -67,7 +67,7 @@ Dashboard profissional para Security Operations Center (SOC) com integração de
 - Credenciais das plataformas de segurança
 
 ### Passo 1: Clone o repositório
-git clone https://github.com/seu-usuario/soc-dashboard.git
+git clone https://github.com/brunodbz/soc-dashboard.git
 cd soc-dashboard
 
 ### Passo 2: Configure variáveis de ambiente
@@ -164,4 +164,5 @@ MIT License - veja LICENSE para detalhes
 ## 🤝 Contribuindo
 
 Pull requests são bem-vindos! Para mudanças maiores, abra uma issue primeiro.
+
 
