@@ -5,7 +5,11 @@ WORKDIR /app
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        gcc \
+        build-essential \
+        cargo \
+        libffi-dev \
+        libssl-dev \
+        libpq-dev \
         postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
