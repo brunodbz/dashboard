@@ -588,7 +588,13 @@ docker compose up -d
 3. **Usar variáveis de proxy (quando necessário):**
    - Exporte antes de rodar o build: `export HTTPS_PROXY=http://usuario:senha@proxy:3128`
    - No Docker Desktop (Windows/macOS): Settings → Resources → Proxies → configure o proxy.
-4. **Forçar novo pull das bases:**
+4. **Usar uma imagem base via mirror (quando o Docker Hub não responde):**
+   - Rode o build apontando para o mirror oficial do Google: 
+     ```
+     docker compose build --build-arg PYTHON_IMAGE=mirror.gcr.io/library/python:3.11-slim backend
+     ```
+   - O mirror entrega as mesmas camadas do Docker Hub e costuma funcionar melhor em redes corporativas restritas.
+5. **Forçar novo pull das bases:**
    - `docker pull nginx:alpine`
    - `docker pull node:20-alpine`
    - `docker pull python:3.11-slim`
