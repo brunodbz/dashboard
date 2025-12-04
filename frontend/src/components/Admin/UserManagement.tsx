@@ -1,11 +1,10 @@
-import type { FC, FormEvent } from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminAPI } from '@/services/api';
-import { UserPlus, Trash2, Edit2, X } from 'lucide-react';
+import { UserPlus, Trash2, Edit2, Check, X } from 'lucide-react';
 import type { User } from '@/types';
 
-const UserManagement: FC = () => {
+const UserManagement: React.FC = () => {
   const queryClient = useQueryClient();
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingRole, setEditingRole] = useState<number | null>(null);
@@ -46,7 +45,7 @@ const UserManagement: FC = () => {
     },
   });
 
-  const handleCreateUser = (e: FormEvent) => {
+  const handleCreateUser = (e: React.FormEvent) => {
     e.preventDefault();
     createMutation.mutate(newUser);
   };
