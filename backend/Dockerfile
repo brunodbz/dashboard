@@ -3,10 +3,18 @@ FROM ${PYTHON_IMAGE}
 
 WORKDIR /app
 
-RUN sed -i \
-    -e 's|http://deb.debian.org|https://deb.debian.org|g' \
-    -e 's|http://security.debian.org|https://security.debian.org|g' \
-    /etc/apt/sources.list \
+RUN if [ -f /etc/apt/sources.list ]; then \
+        sed -i \
+            -e 's|http://deb.debian.org|https://deb.debian.org|g' \
+            -e 's|http://security.debian.org|https://security.debian.org|g' \
+            /etc/apt/sources.list; \
+    fi \
+    && if [ -f /etc/apt/sources.list.d/debian.sources ]; then \
+        sed -i \
+            -e 's|http://deb.debian.org/debian|https://deb.debian.org/debian|g' \
+            -e 's|http://security.debian.org/debian-security|https://security.debian.org/debian-security|g' \
+            /etc/apt/sources.list.d/debian.sources; \
+    fi \
     && printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\n' > /etc/apt/apt.conf.d/80-retries \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
