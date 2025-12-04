@@ -71,8 +71,13 @@ git clone https://github.com/brunodbz/soc-dashboard.git
 cd soc-dashboard
 
 ### Passo 2: Configure variáveis de ambiente
+Copie o arquivo de exemplo e ajuste as credenciais (o Compose lê automaticamente o `.env`).
+```
 cp .env.example .env
-nano .env # Edite com suas credenciais
+nano .env
+```
+
+> Dica: No Ubuntu, confirme se o plugin Docker Compose está instalado com `docker compose version` ou `docker-compose version`.
 
 ### Passo 3: Build e inicialização
 Build das imagens
