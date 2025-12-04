@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Shield, Users, Database, ArrowLeft } from 'lucide-react';
+import type { FC } from 'react';
+import { useState } from 'react';
+import { Shield, Users, Database, ArrowLeft, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import UserManagement from './UserManagement';
 import SourceConfig from './SourceConfig';
@@ -10,7 +11,7 @@ interface AdminProps {
   onLogout: () => void;
 }
 
-const Admin: React.FC<AdminProps> = ({ user, onLogout }) => {
+const Admin: FC<AdminProps> = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState<'users' | 'sources'>('users');
 
   return (
@@ -33,6 +34,12 @@ const Admin: React.FC<AdminProps> = ({ user, onLogout }) => {
             <div className="flex items-center space-x-3">
               <span className="text-gray-300">{user.username}</span>
               <span className="text-xs bg-red-600 px-2 py-1 rounded">{user.role}</span>
+              <button
+                onClick={onLogout}
+                className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
