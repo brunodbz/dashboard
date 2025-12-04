@@ -618,6 +618,13 @@ docker compose up -d
    docker-compose up -d
    ```
    Isso reduz a chance do erro em daemons mais novos, mas o recomendado continua sendo migrar para o plugin v2.
+3. **Se o erro persistir por causa de containers antigos:** remova-os e suba novamente usando o plugin v2:
+   ```bash
+   docker rm -f soc-frontend soc-backend soc-redis soc-postgres soc-nginx 2>/dev/null || true
+   docker volume prune --filter label=com.docker.compose.project=dashboard -f
+   docker compose up -d --build
+   ```
+   Isso força a recriação a partir das imagens mais recentes, evitando metadados incompatíveis herdados de execuções antigas.
 
 ---
 
