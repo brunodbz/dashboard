@@ -59,6 +59,8 @@ Este sistema conecta-se a suas ferramentas de segurança (Elasticsearch, Tenable
 
 ## 📦 Pré-requisitos
 
+> ℹ️ **Compose v2 obrigatório:** Use sempre os comandos com espaço (`docker compose up -d`, `docker compose build`). O binário legado com hífen (`docker-compose`) pode falhar em versões recentes do Docker Engine com o erro `KeyError: 'ContainerConfig'`.
+
 ### O que você precisa ter instalado no seu computador
 
 #### ✅ Obrigatório para TODOS os sistemas operacionais:
@@ -165,14 +167,14 @@ notepad .env
 - Se não estiver lá, abra o Docker Desktop pelo menu Iniciar
 
 2. **No Prompt de Comando, execute:**
-docker-compose up -d
+docker compose up -d
 
 3. **Aguarde o download e inicialização** (primeira vez pode levar 10-15 minutos):
 - Você verá mensagens como "Pulling image...", "Creating container..."
 - Ao final, deve aparecer: "✅ Dashboard disponível em: http://localhost"
 
 4. **Verifique se está funcionando:**
-docker-compose ps
+docker compose ps
 - Todos os serviços devem estar com status "Up"
 
 #### Passo 6: Acessar o Dashboard
@@ -208,7 +210,7 @@ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev
 
 Instale o Docker
 sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker compose-plugin
 
 Adicione seu usuário ao grupo docker (para não precisar usar sudo)
 sudo usermod -aG docker $USER
@@ -220,7 +222,7 @@ newgrp docker
 
 sudo dnf install -y dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker compose-plugin
 sudo systemctl start docker
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
@@ -512,22 +514,22 @@ Abra seu navegador e vá para: [**http://localhost**](http://localhost)
 ### Windows (Prompt de Comando ou PowerShell)
 
 REM Ver status dos containers
-docker-compose ps
+docker compose ps
 
 REM Ver logs em tempo real
-docker-compose logs -f
+docker compose logs -f
 
 REM Parar o sistema
-docker-compose down
+docker compose down
 
 REM Reiniciar o sistema
-docker-compose restart
+docker compose restart
 
 REM Iniciar novamente
-docker-compose up -d
+docker compose up -d
 
 REM Limpar tudo (cuidado! Remove todos os dados)
-docker-compose down -v
+docker compose down -v
 
 ### Linux/macOS (Terminal)
 
@@ -584,7 +586,7 @@ docker compose up -d
        "registry-mirrors": ["https://mirror.gcr.io"]
      }
      ```
-   - Reinicie o Docker Desktop/daemon e tente novamente `docker-compose build`.
+   - Reinicie o Docker Desktop/daemon e tente novamente `docker compose build`.
 3. **Usar variáveis de proxy (quando necessário):**
    - Exporte antes de rodar o build: `export HTTPS_PROXY=http://usuario:senha@proxy:3128`
    - No Docker Desktop (Windows/macOS): Settings → Resources → Proxies → configure o proxy.
@@ -598,7 +600,7 @@ docker compose up -d
    - `docker pull nginx:alpine`
    - `docker pull node:20-alpine`
    - `docker pull python:3.11-slim`
-   - Depois: `docker-compose build --pull`
+   - Depois: `docker compose build --pull`
 
 ---
 
@@ -641,10 +643,10 @@ docker compose up -d
 - Linux: Pode ser Apache ou Nginx. Execute: `sudo systemctl stop apache2` ou `sudo systemctl stop nginx`
 
 **Opção 2:** Mude a porta do SOC Dashboard
-1. Edite o arquivo `docker-compose.yml`
+1. Edite o arquivo `docker compose.yml`
 2. Localize a linha `"80:80"` na seção do nginx
 3. Altere para `"8080:80"` (ou outra porta disponível)
-4. Salve e execute: `docker-compose up -d`
+4. Salve e execute: `docker compose up -d`
 5. Acesse em: `http://localhost:8080`
 
 ---
@@ -657,7 +659,7 @@ docker compose up -d
 1. Abra o arquivo `.env`
 2. Verifique se todas as credenciais estão corretas
 3. Certifique-se de não ter espaços antes ou depois dos valores
-4. Salve e reinicie: `docker-compose restart`
+4. Salve e reinicie: `docker compose restart`
 
 ---
 
@@ -672,7 +674,7 @@ docker compose up -d
    - Tenable: Verifique se as API Keys estão ativas
    - Defender: Confirme as permissões no Azure AD
    - OpenCTI: Teste o token na interface do OpenCTI
-3. Veja os logs para erros: `docker-compose logs backend`
+3. Veja os logs para erros: `docker compose logs backend`
 
 ---
 
@@ -684,7 +686,7 @@ docker compose up -d
 1. Aumente a RAM alocada ao Docker:
    - **Windows/macOS:** Docker Desktop → Settings → Resources → Memory (aumente para 6GB)
 2. Feche outros programas pesados
-3. Reinicie o Docker: `docker-compose restart`
+3. Reinicie o Docker: `docker compose restart`
 
 ---
 
@@ -694,13 +696,13 @@ docker compose up -d
 
 **Solução:**
 Pare tudo
-docker-compose down
+docker compose down
 
 Remova os volumes
-docker-compose down -v
+docker compose down -v
 
 Inicie novamente (criará novo banco)
-docker-compose up -d
+docker compose up -d
 
 Aguarde 2 minutos e tente novamente
 
@@ -733,10 +735,10 @@ E configurar tudo manualmente. Docker facilita muito!
 
 **Resposta:**
 Backup do banco de dados
-docker-compose exec postgres pg_dump -U soc_admin soc_dashboard > backup_$(date +%Y%m%d).sql
+docker compose exec postgres pg_dump -U soc_admin soc_dashboard > backup_$(date +%Y%m%d).sql
 
 Restaurar backup
-cat backup_20241204.sql | docker-compose exec -T postgres psql -U soc_admin soc_dashboard
+cat backup_20241204.sql | docker compose exec -T postgres psql -U soc_admin soc_dashboard
 
 ---
 
@@ -762,10 +764,10 @@ Baixe a nova versão
 git pull
 
 Reconstrua as imagens
-docker-compose build
+docker compose build
 
 Reinicie
-docker-compose up -d
+docker compose up -d
 
 ---
 
@@ -785,7 +787,7 @@ docker-compose up -d
 - Localização (Windows): `\\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\`
 - Localização (macOS): `~/Library/Containers/com.docker.docker/Data/`
 
-**Para persistência:** Sempre use `docker-compose down` (sem `-v`) para NÃO apagar volumes.
+**Para persistência:** Sempre use `docker compose down` (sem `-v`) para NÃO apagar volumes.
 
 ---
 
@@ -808,7 +810,7 @@ docker-compose up -d
 **Resposta:** Sim! Edite o arquivo `.env`:
 CVSS_HIGH_THRESHOLD=8.0 # Mais rigoroso
 RISK_SCORE_CRITICAL_THRESHOLD=85 # Menos rigoroso
-Reinicie: `docker-compose restart`
+Reinicie: `docker compose restart`
 
 ---
 
@@ -824,8 +826,8 @@ Reinicie: `docker-compose restart`
 
 1. **Documentação:** Leia este README completo
 2. **Logs:** Sempre verifique os logs primeiro:
-docker-compose logs -f backend
-docker-compose logs -f frontend
+docker compose logs -f backend
+docker compose logs -f frontend
 3. **GitHub Issues:** Reporte problemas em https://github.com/brunodbz/dashboard/issues
 4. **Comunidade:** Participe das discussões
 
@@ -834,7 +836,7 @@ docker-compose logs -f frontend
 Ao abrir uma issue, inclua:
 1. **Sistema Operacional:** Windows 11, Ubuntu 22.04, macOS 14, etc
 2. **Versão do Docker:** `docker --version`
-3. **Logs completos:** `docker-compose logs > logs.txt`
+3. **Logs completos:** `docker compose logs > logs.txt`
 4. **Passos para reproduzir:** O que você fez antes do erro acontecer
 5. **Screenshot:** Se aplicável
 
