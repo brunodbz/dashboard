@@ -1,12 +1,12 @@
-import React from 'react';
-import { AlertTriangle, Shield, Bug, Target, Activity } from 'lucide-react';
+import type { FC } from 'react';
+import { AlertTriangle, Bug, Target, Activity } from 'lucide-react';
 import type { DashboardStats } from '@/types';
 
 interface StatisticsProps {
   stats: DashboardStats;
 }
 
-const Statistics: React.FC<StatisticsProps> = ({ stats }) => {
+const Statistics: FC<StatisticsProps> = ({ stats }) => {
   const cards = [
     {
       title: 'Alertas Críticos',
