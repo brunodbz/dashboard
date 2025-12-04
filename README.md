@@ -602,6 +602,23 @@ docker compose up -d
 
 ---
 
+### ❌ Problema: Erro `KeyError: 'ContainerConfig'` ao executar `docker-compose`
+
+**Causa:** O binário antigo `docker-compose` (v1) não é compatível com versões recentes do Docker Engine e falha ao recriar os containers.
+
+**Solução recomendada:**
+1. **Use o plugin novo `docker compose` (v2):**
+   - Execute os comandos com espaço: `docker compose up -d`, `docker compose build`, etc.
+   - O `Makefile` já usa automaticamente esse formato; se preferir o binário legado, defina `DOCKER_COMPOSE=docker-compose` ao rodar o `make`.
+2. **Alternativa temporária (se precisar ficar no v1):** force a API suportada exportando `DOCKER_API_VERSION=1.41` antes de rodar o comando, ex.:
+   ```bash
+   export DOCKER_API_VERSION=1.41
+   docker-compose up -d
+   ```
+   Isso reduz a chance do erro em daemons mais novos, mas o recomendado continua sendo migrar para o plugin v2.
+
+---
+
 ### ❌ Problema: "Cannot connect to the Docker daemon"
 
 **Causa:** Docker Desktop não está rodando

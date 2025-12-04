@@ -11,29 +11,31 @@ help:
 	@echo "  make migrate     - Executar migrações de banco"
 	@echo "  make seed        - Popular banco com dados de exemplo"
 
+DOCKER_COMPOSE ?= docker compose
+
 build:
-	docker-compose build
+	$(DOCKER_COMPOSE) build
 
 up:
-	docker-compose up -d
+	$(DOCKER_COMPOSE) up -d
 	@echo "Dashboard disponível em: http://localhost"
 	@echo "API disponível em: http://localhost/api"
 
 down:
-	docker-compose down
+	$(DOCKER_COMPOSE) down
 
 logs:
-	docker-compose logs -f
+	$(DOCKER_COMPOSE) logs -f
 
 restart:
-	docker-compose restart
+	$(DOCKER_COMPOSE) restart
 
 clean:
-	docker-compose down -v
+	$(DOCKER_COMPOSE) down -v
 	docker system prune -f
 
 migrate:
-	docker-compose exec backend alembic upgrade head
+	$(DOCKER_COMPOSE) exec backend alembic upgrade head
 
 seed:
-	docker-compose exec backend python -c "from app.scripts.seed import seed_data; seed_data()"
+	$(DOCKER_COMPOSE) exec backend python -c "from app.scripts.seed import seed_data; seed_data()"
