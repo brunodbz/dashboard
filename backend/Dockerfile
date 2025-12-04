@@ -1,4 +1,4 @@
-ARG PYTHON_IMAGE=python:3.11-slim
+ARG PYTHON_IMAGE=public.ecr.aws/docker/library/python:3.11-slim
 FROM ${PYTHON_IMAGE}
 
 WORKDIR /app

@@ -575,6 +575,8 @@ docker compose up -d
 
 **Causa:** Conexão com o Docker Hub está lenta/bloqueada ou há proxy corporativo impedindo o download das imagens base (`python:3.11-slim`, `nginx:alpine`, `node:20-alpine`).
 
+> ℹ️ O backend já usa por padrão o mirror público `public.ecr.aws/docker/library/python:3.11-slim`, que costuma funcionar melhor em redes restritas. Ainda assim, você pode trocar a imagem base via `PYTHON_IMAGE` se precisar de outra origem.
+
 **Solução:**
 1. **Teste sua conexão:**
    - `docker pull hello-world` (verifique se consegue baixar algo pequeno)
@@ -590,12 +592,16 @@ docker compose up -d
 3. **Usar variáveis de proxy (quando necessário):**
    - Exporte antes de rodar o build: `export HTTPS_PROXY=http://usuario:senha@proxy:3128`
    - No Docker Desktop (Windows/macOS): Settings → Resources → Proxies → configure o proxy.
-4. **Usar uma imagem base via mirror (quando o Docker Hub não responde):**
-   - Rode o build apontando para o mirror oficial do Google: 
+4. **Trocar a imagem base do backend (se necessário):**
+   - Para usar o mirror do Google:
      ```
      docker compose build --build-arg PYTHON_IMAGE=mirror.gcr.io/library/python:3.11-slim backend
      ```
-   - O mirror entrega as mesmas camadas do Docker Hub e costuma funcionar melhor em redes corporativas restritas.
+   - Para insistir no Docker Hub (por exemplo, se precisar de outra tag):
+     ```
+     docker compose build --build-arg PYTHON_IMAGE=python:3.11-slim backend
+     ```
+   - Ambos entregam camadas equivalentes; escolha o registro que sua rede libera com mais facilidade.
 5. **Forçar novo pull das bases:**
    - `docker pull nginx:alpine`
    - `docker pull node:20-alpine`
