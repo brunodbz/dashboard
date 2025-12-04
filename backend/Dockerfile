@@ -3,7 +3,10 @@ FROM ${PYTHON_IMAGE}
 
 WORKDIR /app
 
-RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list \
+RUN sed -i \
+    -e 's|http://deb.debian.org|https://deb.debian.org|g' \
+    -e 's|http://security.debian.org|https://security.debian.org|g' \
+    /etc/apt/sources.list \
     && printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\n' > /etc/apt/apt.conf.d/80-retries \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
